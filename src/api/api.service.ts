@@ -1,17 +1,17 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/auth/";
+const API_URL = "http://193.124.114.46:3001/";
 
 class AuthService {
-    login(username: string, password: string) {
+    login(email: string, password: string) {
         return axios
-            .post(API_URL + "signin", {
-                username,
+            .post(API_URL + "sessions/create", {
+                email,
                 password
             })
             .then(response => {
-                if (response.data.accessToken) {
-                    localStorage.setItem("user", JSON.stringify(response.data));
+                if (response.data.id_token) {
+                    localStorage.setItem("token", JSON.stringify(response.data));
                 }
 
                 return response.data;
@@ -23,7 +23,7 @@ class AuthService {
     }
 
     register(username: string, email: string, password: string) {
-        return axios.post(API_URL + "signup", {
+        return axios.post(API_URL + "users", {
             username,
             email,
             password
@@ -31,10 +31,23 @@ class AuthService {
     }
 
     getCurrentUser() {
-        const userStr = localStorage.getItem("user");
-        if (userStr) return JSON.parse(userStr);
+        return axios
+            .get(API_URL + "/api/protected/user-info")
+            .then(response => {
+                if (response.data.id_token) {
+                    localStorage.setItem("token", JSON.stringify(response.data));
+                }
 
-        return null;
+                return response.data;
+            });
+    }
+
+    transactions() {
+        return axios
+            .get(API_URL + "/api/protected/transactions")
+            .then(response => {
+                return response.data;
+            });
     }
 }
 

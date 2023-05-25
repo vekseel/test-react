@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './AppHeader.css';
-import AppHeaderNavLink, { NavLink } from './AppHeaderNavLink';
+import AppHeaderNavLink, {NavLink} from "../components/AppHeaderNavLink";
 
 // define our AppHeader properties that will be passed into the component
 export type AppHeaderProps = {

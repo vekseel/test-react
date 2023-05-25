@@ -2,6 +2,7 @@ import { Component } from "react";
 import { Navigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import AuthService from "../services/authentication.service";
+import * as Yup from "yup";
 
 type Props = {};
 
@@ -29,10 +30,6 @@ export default class Login extends Component<Props, State> {
 
   componentDidMount() {
     const currentUser = AuthService.getCurrentUser();
-
-    if (currentUser) {
-      this.setState({ redirect: "/profile" });
-    };
   }
 
   componentWillUnmount() {
@@ -49,17 +46,10 @@ export default class Login extends Component<Props, State> {
   handleLogin(formValue: { username: string; password: string }) {
     const { username, password } = formValue;
 
-    this.setState({
-      message: "",
-      loading: true
-    });
-
 
     AuthService.login(username, password).then(
       () => {
-        this.setState({
-          redirect: "/profile"
-        });
+
       },
       error => {
         const resMessage =
@@ -68,11 +58,6 @@ export default class Login extends Component<Props, State> {
             error.response.data.message) ||
           error.message ||
           error.toString();
-
-        this.setState({
-          loading: false,
-          message: resMessage
-        });
       }
     );
   }
