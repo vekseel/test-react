@@ -1,6 +1,6 @@
 import React from 'react'
-import { Login } from "./login.component";
+import { SignIn } from "./sign-in.component";
 
 export function Home() {
-    return <div><Login/></div>
+    return <div><SignIn/></div>
 }

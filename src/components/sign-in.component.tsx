@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import * as Yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import {string} from "yup";
 import AuthService from "../services/auth.service";
+import {useNavigate} from "react-router-dom";
 
-export function Login() {
+export function SignIn() {
     const [message, setMessage] = useState<string>();
-    const [redirect, setRedirect] = useState<string>();
 
     function validationSchema() {
         return Yup.object().shape({
@@ -19,9 +18,10 @@ export function Login() {
         const { username, password } = formValue;
         setMessage("");
 
-        AuthService.login(username, password).then(
-            () => {
-                setRedirect("/profile")
+        AuthService.signIn(username, password).then(
+            response => {
+                //let navigate = useNavigate();
+                //navigate("/login");
             },
             error => {
                 const resMessage =

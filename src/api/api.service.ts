@@ -1,8 +1,9 @@
 import axios from "axios";
+import {CurrentUserInfo} from "../dto/current-user-info.dto";
 
 const API_URL = "http://193.124.114.46:3001/";
 
-class AuthService {
+class ApiService {
     login(email: string, password: string) {
         return axios
             .post(API_URL + "sessions/create", {
@@ -30,7 +31,7 @@ class AuthService {
         });
     }
 
-    getCurrentUser() {
+    async getCurrentUser() : Promise<CurrentUserInfo> {
         return axios
             .get(API_URL + "/api/protected/user-info")
             .then(response => {
@@ -51,4 +52,4 @@ class AuthService {
     }
 }
 
-export default new AuthService();
+export default ApiService;
