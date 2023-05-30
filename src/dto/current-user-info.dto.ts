@@ -1,8 +1,6 @@
 import {number, string} from "yup";
+import {UserInfo} from "./user-info.dto";
 
 export type CurrentUserInfo = {
-    id: number
-    name: string
-    email: string
-    balance: number
+    user_info_token: UserInfo
 }

@@ -1,9 +1,23 @@
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import AuthService from "../services/auth.service";
 import * as Yup from "yup";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
-export function SignUp(){
+export type SignInProps = {
+    setLoggedIn(loggedIn: boolean) : void
+}
+
+export function SignUp(props: SignInProps){
+    const navigate = useNavigate()
+    const [requiredNavigation, setRequiredNavigation] = useState<string>("/")
+
+    useEffect(() => {
+        if (requiredNavigation != "/"){
+            navigate(requiredNavigation, { replace: true })
+        }
+    }, [requiredNavigation]);
+
     const initialValues = {
         email: "",
         password: "",
@@ -37,27 +51,17 @@ export function SignUp(){
         setMessage("")
         setSuccessful(false)
 
+        console.log("handling")
+
         AuthService.signUp(
             username,
             email,
             password
         ).then(
             response => {
-                setSuccessful(false)
-                setMessage("test")
+                props.setLoggedIn(true)
 
-                console.log("msg", message)
-
-                console.log("response", response)
-                if (response.status == 201){
-                    setSuccessful(true)
-                }
-                else{
-                    console.log("setting error")
-
-                    setSuccessful(false)
-                    setMessage(response.data)
-                }
+                setRequiredNavigation("/transactions")
             },
             error => {
                 const resMessage =

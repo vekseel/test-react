@@ -13,6 +13,8 @@ class AuthService {
             })
             .then(response => {
                 if (response.data.id_token) {
+                    console.log("setting the token ", response.data.id_token)
+
                     localStorage.setItem("token", response.data.id_token);
                 }
 
@@ -31,6 +33,8 @@ class AuthService {
                 console.log("sign-up response", response)
 
                 if (response.data.id_token) {
+                    console.log("setting the token ", response.data.id_token)
+
                     localStorage.setItem("token", response.data.id_token);
                 }
 
@@ -41,7 +45,11 @@ class AuthService {
             });
     }
 
-    currentUserInfo() {
+    currentUserInfo() : Promise<CurrentUserInfo> {
+        if (!authHeader()){
+            return new Promise<CurrentUserInfo>(() => {});
+        }
+
         return axios
             .get(API_URL + "api/protected/user-info", {headers: {Authorization: authHeader()}})
             .then(response => {
@@ -50,6 +58,8 @@ class AuthService {
     }
 
     logOut() {
+        console.log("logout")
+
         localStorage.removeItem("token");
     }
 }

@@ -1,10 +1,23 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import * as Yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import AuthService from "../services/auth.service";
 import {useNavigate} from "react-router-dom";
 
-export function SignIn() {
+export type SignInProps = {
+    setLoggedIn(loggedIn: boolean) : void
+}
+
+export function SignIn(props: SignInProps) {
+    const navigate = useNavigate()
+    const [requiredNavigation, setRequiredNavigation] = useState<string>("/")
+
+    useEffect(() => {
+        if (requiredNavigation != "/"){
+            navigate(requiredNavigation, { replace: true })
+        }
+    }, [requiredNavigation]);
+
     const [message, setMessage] = useState<string>();
 
     function validationSchema() {
@@ -20,8 +33,9 @@ export function SignIn() {
 
         AuthService.signIn(username, password).then(
             response => {
-                //let navigate = useNavigate();
-                //navigate("/login");
+                props.setLoggedIn(true)
+
+                setRequiredNavigation("/transactions")
             },
             error => {
                 const resMessage =

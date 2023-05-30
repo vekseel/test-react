@@ -1,30 +1,42 @@
 import React, {useEffect, useState} from 'react';
 import {Routes, Route, Link, useNavigate,} from "react-router-dom";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import {Home} from "./components/home.component";
 import {SignIn} from "./components/sign-in.component";
 import AuthService from "./services/auth.service";
 import {SignUp} from "./components/sign-up.component";
+import {Transactions} from "./components/transactions.component";
 
 function App() {
+    useEffect(() => {
+        AuthService.currentUserInfo().then(
+            response => {
+                if (response && response.user_info_token){
+                    setUserBalance(response.user_info_token.balance)
+                    setLoggedIn(true)
+                }
+            },
+            error => {
+                setLoggedIn(false)
+            }
+        )
+    });
+
+    function setLoggedInCallback(loggedIn: boolean){
+        setLoggedIn(loggedIn)
+    }
+
+    const [loggedIn, setLoggedIn] = useState<boolean>(false)
+
     function logout(){
         AuthService.logOut()
     }
 
     const [userBalance, setUserBalance] = useState<number>();
 
-    useEffect(() => {
-        const user = AuthService.currentUserInfo().then(
-            response => {
-                if (response && response.user_info_token){
-                    setUserBalance(response.user_info_token.balance)
-                }
-            }
-        )
-    });
-
   return (
-    <div className="App">
+    <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark">
             <Link to={"/"} className="navbar-brand">
                 TZ
@@ -36,8 +48,7 @@ function App() {
                     </Link>
                 </li>
 
-
-                {userBalance && (
+                {loggedIn && (
                     <li className="nav-item">
                         <Link to={"/user"} className="nav-link">
                             User
@@ -46,12 +57,17 @@ function App() {
                 )}
             </div>
 
-            {userBalance ? (
+            {loggedIn ? (
                 <div className="navbar-nav ml-auto">
                     <li className="nav-item">
                         <Link to={"/profile"} className="nav-link">
                             {userBalance}
                         </Link>
+                    </li>
+                    <li className="nav-item">
+                        <a href="/transactions" className="nav-link" onClick={logout}>
+                            Transactions
+                        </a>
                     </li>
                     <li className="nav-item">
                         <a href="/login" className="nav-link" onClick={logout}>
@@ -78,8 +94,9 @@ function App() {
 
       <Routes>
           <Route path="/home" element={<Home/>}/>
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/sign-in" element={<SignIn setLoggedIn={setLoggedInCallback} />} />
+          <Route path="/sign-up" element={<SignUp setLoggedIn={setLoggedInCallback} />} />
+          <Route path="/transactions" element={<Transactions />} />
       </Routes>
     </div>
   );
