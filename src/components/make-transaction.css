@@ -1,0 +1,10 @@
+.inline {
+    display: inline-block;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    justify-content: center;
+}

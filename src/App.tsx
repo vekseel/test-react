@@ -7,6 +7,7 @@ import {SignIn} from "./components/sign-in.component";
 import AuthService from "./services/auth.service";
 import {SignUp} from "./components/sign-up.component";
 import {Transactions} from "./components/transactions.component";
+import {MakeTransaction} from "./components/make-transaction.component";
 
 function App() {
     useEffect(() => {
@@ -41,37 +42,27 @@ function App() {
             <Link to={"/"} className="navbar-brand">
                 TZ
             </Link>
-            <div className="navbar-nav mr-auto">
-                <li className="nav-item">
-                    <Link to={"/home"} className="nav-link">
-                        Home
-                    </Link>
-                </li>
-
-                {loggedIn && (
-                    <li className="nav-item">
-                        <Link to={"/user"} className="nav-link">
-                            User
-                        </Link>
-                    </li>
-                )}
-            </div>
 
             {loggedIn ? (
                 <div className="navbar-nav ml-auto">
                     <li className="nav-item">
                         <Link to={"/profile"} className="nav-link">
-                            {userBalance}
+                            Your balance: {userBalance}
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <a href="/transactions" className="nav-link" onClick={logout}>
+                        <a href="/transactions" className="nav-link">
                             Transactions
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a href="/login" className="nav-link" onClick={logout}>
-                            LogOut
+                        <a href="/new-transaction" className="nav-link">
+                            Make transaction
+                        </a>
+                    </li>
+                    <li className="nav-item">
+                        <a href="/sign-in" className="nav-link" onClick={logout}>
+                            Log out
                         </a>
                     </li>
                 </div>
@@ -97,6 +88,7 @@ function App() {
           <Route path="/sign-in" element={<SignIn setLoggedIn={setLoggedInCallback} />} />
           <Route path="/sign-up" element={<SignUp setLoggedIn={setLoggedInCallback} />} />
           <Route path="/transactions" element={<Transactions />} />
+          <Route path="/new-transaction" element={<MakeTransaction />} />
       </Routes>
     </div>
   );
