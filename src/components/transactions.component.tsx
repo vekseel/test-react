@@ -14,8 +14,6 @@ export function Transactions() {
     useEffect(() => {
         TransactionsService.transactions().then(
             response => {
-                console.log(response)
-
                 setTransaction(response)
             },
         );

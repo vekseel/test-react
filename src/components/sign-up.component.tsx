@@ -51,8 +51,6 @@ export function SignUp(props: SignInProps){
         setMessage("")
         setSuccessful(false)
 
-        console.log("handling")
-
         AuthService.signUp(
             username,
             email,
@@ -71,7 +69,6 @@ export function SignUp(props: SignInProps){
                     error.message ||
                     error.toString();
 
-                console.log("handle error ", resMessage)
 
                 setMessage(resMessage)
                 setSuccessful(false)

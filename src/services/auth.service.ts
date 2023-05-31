@@ -12,8 +12,6 @@ class AuthService {
             })
             .then(response => {
                 if (response.data.id_token) {
-                    console.log("setting the token ", response.data.id_token)
-
                     localStorage.setItem("token", response.data.id_token);
                 }
 
