@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {Routes, Route, Link, useNavigate,} from "react-router-dom";
-import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import {Home} from "./components/home.component";
-import {SignIn} from "./components/sign-in.component";
-import AuthService from "./services/auth.service";
-import {SignUp} from "./components/sign-up.component";
-import {Transactions} from "./components/transactions.component";
-import {MakeTransaction} from "./components/make-transaction.component";
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { SignIn } from './components/sign-in.component';
+import AuthService from './services/auth.service';
+import { SignUp } from './components/sign-up.component';
+import { Transactions } from './components/transactions.component';
+import { MakeTransaction } from './components/make-transaction.component';
 
 function App() {
     useEffect(() => {
@@ -46,7 +45,7 @@ function App() {
             {loggedIn ? (
                 <div className="navbar-nav ml-auto">
                     <li className="nav-item">
-                        <Link to={"/profile"} className="nav-link">
+                        <Link to={"/transactions"} className="nav-link">
                             Your balance: {userBalance}
                         </Link>
                     </li>
@@ -84,7 +83,6 @@ function App() {
         </nav>
 
       <Routes>
-          <Route path="/home" element={<Home/>}/>
           <Route path="/sign-in" element={<SignIn setLoggedIn={setLoggedInCallback} />} />
           <Route path="/sign-up" element={<SignUp setLoggedIn={setLoggedInCallback} />} />
           <Route path="/transactions" element={<Transactions />} />

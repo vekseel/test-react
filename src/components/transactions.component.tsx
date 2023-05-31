@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
-import TransactionsService from "../services/transactions.service";
-import {TransactionsDto} from "../dto/transactions.dto";
+import React, {useEffect, useState} from 'react'
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
+import TransactionsService from '../services/transactions.service';
+import { TransactionsDto } from '../dto/transactions.dto';
+import UsersService from "../services/users.service";
 
 export function Transactions() {
     const defaultTransaction: TransactionsDto = {
@@ -10,11 +11,15 @@ export function Transactions() {
 
     const [transactions, setTransaction] = useState<TransactionsDto>(defaultTransaction);
 
-    TransactionsService.transactions().then(
-        response => {
-            setTransaction(response.data)
-        },
-    );
+    useEffect(() => {
+        TransactionsService.transactions().then(
+            response => {
+                console.log(response)
+
+                setTransaction(response)
+            },
+        );
+    }, []);
 
     return <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -34,8 +39,9 @@ export function Transactions() {
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row">
-                                {t.date}
+                                {t.id}
                             </TableCell>
+                            <TableCell align="center">{t.date}</TableCell>
                             <TableCell align="center">{t.username}</TableCell>
                             <TableCell align="center">{t.amount}</TableCell>
                             <TableCell align="center">{t.balance}</TableCell>

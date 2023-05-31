@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import {Alert, Autocomplete, Button, Snackbar, TextField} from "@mui/material";
-import UsersService from "../services/users.service";
-import {UserListItem} from "../dto/user-list-item.dto";
-import "./make-transaction.css"
-import transactionsService from "../services/transactions.service";
-import {number} from "yup";
+import { Alert, Autocomplete, Button, Snackbar, TextField } from "@mui/material";
+import UsersService from '../services/users.service';
+import { UserListItem } from '../dto/user-list-item.dto';
+import './make-transaction.css'
+import transactionsService from '../services/transactions.service';
 
 export function MakeTransaction() {
     function transferMoney(){
@@ -28,13 +27,9 @@ export function MakeTransaction() {
 
     const [errorMsgOpen, setErrorMsgOpen] = useState(false);
     const [successOpen, setSuccessOpen] = useState(false);
-
     const [input, setInput] = useState<string>("")
-
     const [amount, setAmount] = useState<number>(0)
-
     const [selectedUser, setSelectedUser] = useState<string>("")
-
     const [users, setUsers] = useState<UserListItem[]>([])
 
     useEffect(() => {

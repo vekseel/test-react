@@ -1,13 +1,12 @@
 import axios from "axios";
 import authHeader from "../api/auth-header";
-import {CurrentUserInfo} from "../dto/current-user-info.dto";
-
-const API_URL = "http://193.124.114.46:3001/";
+import { CurrentUserInfo } from "../dto/current-user-info.dto";
+import { Api } from '../api/api';
 
 class AuthService {
     async signIn(email: string, password: string) {
         return axios
-            .post(API_URL + "sessions/create", {
+            .post(Api.ApiPath + Api.SignIn, {
                 email,
                 password
             })
@@ -24,17 +23,13 @@ class AuthService {
 
     async signUp(email: string, username: string, password: string) {
         return axios
-            .post(API_URL + "users", {
+            .post(Api.ApiPath + Api.SignUp, {
                 email,
                 username,
                 password
             })
             .then(response => {
-                console.log("sign-up response", response)
-
                 if (response.data.id_token) {
-                    console.log("setting the token ", response.data.id_token)
-
                     localStorage.setItem("token", response.data.id_token);
                 }
 
@@ -51,15 +46,13 @@ class AuthService {
         }
 
         return axios
-            .get(API_URL + "api/protected/user-info", {headers: {Authorization: authHeader()}})
+            .get(Api.ApiPath + Api.CurrentUserInfo, {headers: {Authorization: authHeader()}})
             .then(response => {
                 return response.data;
             });
     }
 
     logOut() {
-        console.log("logout")
-
         localStorage.removeItem("token");
     }
 }

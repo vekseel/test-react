@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react'
-import * as Yup from "yup";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import AuthService from "../services/auth.service";
-import {useNavigate} from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import * as Yup from 'yup';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import AuthService from '../services/auth.service';
+import { useNavigate } from 'react-router-dom';
 
 export type SignInProps = {
     setLoggedIn(loggedIn: boolean) : void
@@ -60,8 +60,7 @@ export function SignIn(props: SignInProps) {
             <img
                 src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
                 alt="profile-img"
-                className="profile-img-card"
-            />
+                className="profile-img-card"/>
 
             <Formik
                 initialValues={initialValues}
@@ -91,16 +90,13 @@ export function SignIn(props: SignInProps) {
 
                     <div className="form-group">
                         <button type="submit" className="btn btn-primary btn-block">
-                                <span className="spinner-border spinner-border-sm"></span>
                             <span>Login</span>
                         </button>
                     </div>
 
                     {message && (
                         <div className="form-group">
-                            <div className="alert alert-danger" role="alert">
-                                {message}
-                            </div>
+                            <button type="submit" className="btn btn-primary btn-block">Login</button>
                         </div>
                     )}
                 </Form>
